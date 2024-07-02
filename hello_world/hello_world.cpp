@@ -31,16 +31,31 @@ void doSomething(string c, int n) {
     }
 }
 
+void printAllSubarrays(vector<int>& v) {
+    int n = v.size();
+    for (int i = 0; i < n; i++) {
+        for (int j = i; j < n; j++) {
+            for (int k = i; k < j; k++) {
+                cout << v[k] << " ";
+            }
+            cout << endl;
+        }
+    }
+}
+
 int main()
 {
-    string c = "*";
-    int t;
-    cin >> t;
-    for (int i = 0; i < t; i++) {
-        int n;
-        cin >> n;
-        doSomething(c, n);
-    }
+    // string c = "*";
+    // int t;
+    // cin >> t;
+    // for (int i = 0; i < t; i++) {
+    //     int n;
+    //     cin >> n;
+    //     doSomething(c, n);
+    // }
+
+    vector<int> v = {1, 2, 3, 4, 5};
+    printAllSubarrays(v);
 
     return 0;
 }
