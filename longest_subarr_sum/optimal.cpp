@@ -13,7 +13,7 @@ int maxLen(vector<int>& arr, int n) {
         return 0;
     }
 
-    int target = 6;
+    int target = 6; 
     int longest_len = 0;
     int curr_sum = 0;
     int left = 0;
