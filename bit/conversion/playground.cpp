@@ -34,6 +34,10 @@ int binaryToDecimal(string& binary_num) {
 }
 
 
+// x >> k = x / 2^k
+int rightShift(string& binary_num) {}
+
+
 int main() {
     int num = 13;
     string binary_num = "1101";
