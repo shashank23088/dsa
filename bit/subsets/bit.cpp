@@ -1,5 +1,5 @@
-// T(N) = O(N^3)
-// S(N) = O(2^N)
+// T(N) = O(2^N * N)
+// S(N) = O(2^N * N)
 
 #include <bits/stdc++.h>
 
@@ -8,22 +8,20 @@ using namespace std;
 
 vector< vector<int> > subsets(vector<int>& nums) {
     int n = nums.size();
-    vector< vector<int> > subsets = {{}};
+    int n_subsets = 1 << n;    // 2 ^ n
+    vector< vector<int> > power_set;
 
-    for (int i = 0; i < n; i++) {
-        int start = i;
-        int end = i;
-        while (end < n) {
-            vector<int> temp;
-            for (int j = start; j <= end; j++) {
+    for (int i = 0; i < n_subsets; i++) {
+        vector<int> temp;
+        for (int j = 0; j < n; j++) {
+            if (i & (1 << j)) {    // check if jth bit is set or not
                 temp.emplace_back(nums[j]);
             }
-            end++;
-            subsets.emplace_back(temp);
         }
+        power_set.emplace_back(temp);
     }
 
-    return subsets;
+    return power_set;
 }
 
 
