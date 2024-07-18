@@ -1,4 +1,4 @@
-// T(N) = O(N / 2)
+// T(N) = O(N)
 // S(N) = O(1)
 
 #include <bits/stdc++.h>
@@ -9,7 +9,7 @@ using namespace std;
 struct ListNode {
     int val;
     ListNode *next;
-    ListNode() : val(0), next(nullptr) {}
+    ListNode() : val(0), next(nullptr) {}    // dummy node
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
@@ -44,40 +44,30 @@ class List {
         }
 
         void removeNthFromEnd(int n) {
-            ListNode *p = head; 
-            ListNode *q = head;
+            ListNode *temp = new ListNode();
+            temp -> next = head;
+            ListNode *fast = temp;
+            ListNode *slow = temp;
 
-            int i = 1;
-            int count = 0;
-            while (q != NULL) {
-                q = q -> next;
-                count++;
+            for (int i = 0; i < n; i++) {
+                fast = fast -> next;
             }
 
-            if (count == 1) {
-                return;
+            while (fast -> next != NULL) {
+                slow = slow -> next;
+                fast = fast -> next;
             }
 
-            if (count == n) {
+            if (slow == temp) {
                 head = head -> next;
-                p -> next = NULL;
-                return;
+                slow -> next -> next = NULL;
+                slow -> next = NULL;
             }
 
-            q = head;
-            p = head;
-            while (i < (count - n) + 1) {
-                p = q;
-                q = q -> next;
-                i++;
-            }
-
-            if (q -> next != NULL) {
-                p -> next = q -> next;
-                q -> next = NULL;
-            }
             else {
-                p -> next = NULL;
+                ListNode *dummy = slow -> next;
+                slow -> next = slow -> next -> next;
+                dummy -> next = NULL;
             }
 
             return;
@@ -98,7 +88,7 @@ class List {
 int main() {
     vector<int> node_values = {1, 2, 3, 4, 5};
     int n = 2;
-    
+
     List list1(node_values);
     list1.printList();
     list1.removeNthFromEnd(n);
