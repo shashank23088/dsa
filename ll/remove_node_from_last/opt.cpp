@@ -51,9 +51,9 @@ class List {
 
             for (int i = 0; i < n; i++) {
                 fast = fast -> next;
-            }
+            }    // now fast has travelled till n, so slow will travel N - n, that what was required
 
-            while (fast -> next != NULL) {
+            while (fast -> next != NULL) {    
                 slow = slow -> next;
                 fast = fast -> next;
             }
