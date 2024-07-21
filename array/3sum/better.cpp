@@ -1,5 +1,5 @@
-// T(N) : O(N^3*log(#triplets))
-// S(N) : O(2 * #triplets)
+// T(N) : O(N^2*logM)    // M = #elements in hashmap
+// S(N) : O(N) + O(2 * #triplets)
 
 #include <bits/stdc++.h>
 
@@ -11,15 +11,20 @@ vector<vector<int>> threeSum(vector<int>& nums) {
     int n = nums.size();
     set< vector<int> > triplets_set;
 
-    for (int i = 0; i < n; i++) {    // O(n^3 * log(#triplets))
+    for (int i = 0; i < n; i++) {    
+        map<int, int> keys;
+
         for (int j = i + 1; j < n; j++) {
-            for (int k = j + 1; k < n; k++) {
-                if (nums[i] + nums[j] + nums[k] == 0) {
-                    vector<int> temp = {nums[i], nums[j], nums[k]};
-                    sort(temp.begin(), temp.end());
-                    triplets_set.insert(temp);    // O(log(#triplets))
-                }
+
+            int nums_k = -(nums[i] + nums[j]);
+            if (keys.find(nums_k) != keys.end()) {
+                vector<int> temp = {nums_k, nums[i], nums[j]};
+                sort(temp.begin(), temp.end());
+                triplets_set.insert(temp);
             }
+
+            keys[nums[j]]++;
+
         }
     }
 
