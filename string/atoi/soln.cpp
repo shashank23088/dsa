@@ -1,3 +1,6 @@
+// T(N) : O(N)
+// S(N) : O(1)
+
 #include <bits/stdc++.h>
 
 using namespace std;
