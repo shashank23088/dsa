@@ -1,3 +1,5 @@
+// T(N) : O(N2)
+
 #include <bits/stdc++.h>
 
 using namespace std;

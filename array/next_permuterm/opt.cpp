@@ -1,4 +1,4 @@
-// 1. find breakpoint (a[i] < a[i + 1]) [bcz longest prefix match]
+// 1. find breakpoint (a[i] > a[i + 1]) [bcz longest prefix match]
 // 2. start from the breakpoint, and try to swap with smallest no. > a[i]
 // 3. sort the remaining no.'s in increasing order
 // T(n): O(3n)
