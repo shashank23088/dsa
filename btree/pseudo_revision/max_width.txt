@@ -1,0 +1,46 @@
+int maxWidth(Node* root) {
+    if(!root) {return 0;}
+
+    int max_width = 0;
+
+    // level order traversal, without index overflow
+    // follow 0-based index, left = 2*i + 1, right = 2*i + 2
+    // sub. min_idx on level from all nodes' idx
+    // max_width = last - first + 1
+
+    queue<pair<Node*, int>> q;    // (node, idx)
+    q.push({root, 0});
+
+    while(!q.empty()) {
+        int n = q.size();
+        int min_idx = q.front().second;
+        int fist, last;
+
+        for(int i = 0; i < n; i++) {
+            Node* curr_node = q.front().first;
+            int curr_idx = q.front().second;
+            curr_idx -= min_idx;
+            q.pop();
+
+            if(i == 0) {
+                first = curr_idx;
+            }
+
+            else if(i == n - 1) {
+                last = curr_idx;
+            }
+
+            if(curr_node -> left) {
+                q.push({curr_node -> left, 2*curr_idx + 1});
+            }
+
+            if(curr_node -> right) {
+                q.push({curr_node -> right, 2*curr_idx + 2});
+            }
+        }
+
+        max_width = max(max_width, last - first + 1);
+    }
+
+    return max_width;
+}

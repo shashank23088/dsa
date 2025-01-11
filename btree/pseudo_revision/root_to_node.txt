@@ -1,0 +1,50 @@
+// root to a single node
+bool inorder(Node* root, int target, vector<int>& answer) {
+    if(!root) {return False;}
+
+    answer.emplace_back(root -> val);
+    if(root -> val == target) {return True;}
+    if(inorder(root -> left) || inorder(root -> right)) {return True;}
+    answer.pop_back();
+
+    return False;
+}
+
+vector<int> nodePath(Node* root, int target) {
+    vector<int> answer;
+    if(!root) {return answer;}
+
+    inorder(root, target, answer);
+
+    return answer;
+}
+
+// root to all leaf nodes
+bool isLeaf(Node* node) {
+    return node && !node -> left && !node -> right;
+}
+
+void modInorder(Node* root, vector<int> temp, vector<vector<int>>& answer) {
+    if(!root) {return;}
+
+    temp.emplace_back(root -> val);
+    if(isLeaf(root)) {
+        answer.emplace_back(temp);
+        temp.pop_back();
+        return;
+    }
+
+    modInorder(root -> left, temp, answer);
+    modInorder(root -> right, temp, answer);
+    temp.pop_back();
+}
+
+vector<vector<int>> leafPaths(Node* root) {
+    vector<vector<int>> answer;
+    if(!root) {return answer;}
+
+    vector<int> temp;
+    modInorder(root, temp, answer);
+
+    return answer;
+}

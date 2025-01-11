@@ -1,0 +1,105 @@
+// zig-zag traversal: use flag to determine direction in level-order traversal
+vector<int> zig_zag(Node* root) {
+    vector<int> answer;
+    if(!root) {return answer;}
+
+    bool flag = 0 // left->right
+    queue<Node*> q;
+    q.push(root);
+
+    while(!q.empty()) {
+        int n = q.size();
+        vector<int> temp;
+        for(int i = 0; i < n; i++) {
+            Node* curr_node = q.front();
+            q.pop();
+            temp.emplace_back(curr_node -> val);
+
+            if(curr_node -> left) {
+                q.push(curr_node -> left);
+            }
+
+            if(curr_node -> right) {
+                q.push(curr_node -> right);
+            }
+        }
+
+        if(!flag) {
+            reverse(temp.begin(), temp.end());
+        }
+        answer.insert(answer.end(), temp.begin(), temp.end());
+        flag = !flag;
+    }
+
+    return answer;
+}
+
+// Boundary Traversal
+bool isLeaf(Node* node) {
+    return node && !node -> left && !node -> right; 
+}
+
+void traverseLeftSubtree(Node* root, vector<int>& answer) {
+    Node* curr_node = root -> left;
+    while(curr_node) {
+        if(!isLeaf(curr_node)) {
+            answer.emplace_back(curr_node -> val);
+        }
+
+        if(curr_node -> left) {
+            curr_node = curr_node -> left;
+        }
+        else {
+            curr_node = curr_node -> right;
+        }
+    }
+
+    return;
+}
+
+void traverseLeafNodes(Node* root, vector<int>& answer) {
+    if(!root) {return;}
+
+    if(isLeaf(root)) {
+        answer.emplace_back(root -> val);
+        return;
+    }
+
+    traverseLeafNodes(root -> left, answer);
+    traverseLeafNodes(root -> right, answer);
+}
+
+void traverseRightSubtree(Node* root, vector<int>& answer) {
+    vector<int> temp;
+    Node* curr_node = root -> right;
+    while(curr_node) {
+        if(!isLeaf(curr_node)) {
+            temp.emplace_back(curr_node -> val);
+        }
+
+        if(curr_node -> right) {
+            curr_node = curr_node -> right;
+        }
+
+        else {
+            curr_node = curr_node -> left;
+        }
+    }
+
+    answer.insert(answer.end(), temp.rbegin(), temp.rend());
+
+    return;
+}
+
+vector<int> boundaryTraversal(Node* root) {
+    vector<int> answer;
+    if(!root) {return answer;}
+
+    answer.emplace_back(root -> val);
+
+    traverseLeftSubtree(root, answer);
+    traverseLeafNodes(root, answer);
+    traverseRightSubtree(root, answer); // added in reverse-order
+
+    return answer;
+}

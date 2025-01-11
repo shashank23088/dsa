@@ -1,0 +1,68 @@
+// recursive 
+void inorder(Node* root) {
+    if(!root) {return;}
+
+    inorder(root->left);
+    print(root->val);
+    inorder(root->right);   
+}
+
+// iterative
+vector<int> inorder(Node* root) {
+    vector<int> answer;
+    if(!root) {return answer;}
+
+    stack<Node*> st;
+    st.push(root);
+
+    Node* current = root;
+    while (current || !st.empty()) {
+        while(current) {
+            current = current -> left;
+            st.push(current);
+        }
+
+        current = st.top();
+        answer.emplace_back(current);
+        current = current -> right;
+        st.pop();
+        
+    }
+
+    return answer;
+}
+
+// morris: S(N): O(1): [Threaded Binary Tree]
+vector<int> morris(Node* root) {
+    vector<int> answer;
+    if(!root) {return answer;}
+
+    Node* curr = root;
+    while(curr) {
+        if(!curr -> left) {
+            answer.emplace_back(curr -> val);
+            curr = curr -> right;
+        }
+
+        else {
+            Node* temp = curr -> left;
+            while(temp -> right && temp -> right != root) {
+                temp = temp -> right;
+            }
+
+            if (!temp -> right) {
+                temp -> right = curr;
+                curr = curr -> left;
+            }
+
+            else {
+                temp -> right = NULL;
+                answer.emplace_back(curr);
+                curr = curr -> right;
+            }
+        }
+    }
+
+    return answer;
+}
+

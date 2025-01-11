@@ -1,0 +1,55 @@
+// Right-Side View of BT: [reverse pre-order Traversal]
+
+void f(Node* node, int level, vector<int>& answer) {
+    if(!node) {return;}
+
+    if(answer.size() == level) {
+        answer.emplace_back(node -> val);
+        return;
+    }
+
+    // below order will be reverse in left-side view
+    f(node -> right, level + 1, answer);
+    f(node -> left, level + 1, answer);
+}
+
+vector<int> right_view(Node* root) {
+    vector<int> answer;
+    if(!root) {return answer;}
+
+    f(root, 0, answer);
+
+    return answer;
+}
+
+// bottom-view: Vertical-Order Traversal Concept [recursion can't be used, therefore level-order traversal]
+vector<int> bottom_view(Node* root) {
+    vector<int> answer;
+    if(!root) {return answer;}
+
+    map<int, int> mp;
+    queue<pair<Node*, int>> q;
+
+    q.push({root, 0});
+    while(!q.empty()) {
+        Node* curr_node = q.front().first;
+        int curr_vertical = q.front().second;
+        q.pop();
+        mp[curr_vertical] = curr_node -> val;
+        // in case of top-view: if(!mp[curr_verical]) {mp[curr_verical] = curr_node -> val;}
+
+        if(curr_node -> left) {
+            q.push({curr_node -> left, curr_vertical - 1});
+        }
+
+        if(curr_node -> right) {
+            q.push({curr_node -> right, curr_vertical + 1});
+        }
+    }
+
+    for(auto itr: mp) {
+        answer.emplace_back(itr.second);
+    }
+
+    return answer;
+}
